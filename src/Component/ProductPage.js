@@ -5,7 +5,8 @@ import { Spinner } from 'react-bootstrap';
 
 const ProductPage = () => {
   const [data, setData] = useState([]);
-  const [cart, setCart] = useState([]);
+  
+  const [cartItems, setCartItems] = useState([]);
 
   const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +34,7 @@ const ProductPage = () => {
   }, []);
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    setCartItems([...cartItems, product]);
   };
 
   if (error) {
@@ -61,11 +62,25 @@ const ProductPage = () => {
 
   return (
     <div className="container">
-      <h1 className="mt-5 mb-4">Product Page</h1>
+      <h1 className="mt-5 mb-4">Product</h1>
       <div className="d-flex justify-content-end mb-5">
       <button className="btn btn-primary me-3" onClick={handleLoginClick}>Login</button>
       <button className="btn btn-primary" onClick={handleRegistrationClick}>Registration</button>
       </div>
+      <div className="row">
+    <div className="col-md-4 mb-5">
+      {/* Cart Section */}
+      <h2>Shopping Cart</h2>
+      <ul className="list-group">
+        {cartItems.map((cartItem, index) => (
+          <li className="list-group-item" key={index}>
+            {cartItem.name} - BDT{cartItem.price}
+          </li>
+        ))}
+      </ul>
+      {cartItems.length === 0 && <p>Your cart is empty.</p>}
+    </div>
+  </div>
       <div className="row">
         {data.map((product) => (
           <div className="col-md-3 mb-4" key={product.id}>
@@ -89,19 +104,6 @@ const ProductPage = () => {
           </div>
         ))}
       </div>
-
-      {/* Cart Section */}
-      {/* <div className="mt-5">
-        <h2>Shopping Cart</h2>
-        <ul className="list-group">
-          {cart.map((cartItem, index) => (
-            <li className="list-group-item" key={index}>
-              {cartItem.name} - ${cartItem.price.toFixed(2)}
-            </li>
-          ))}
-        </ul>
-        {cart.length === 0 && <p>Your cart is empty.</p>}
-      </div> */}
     </div>
   );
 };
